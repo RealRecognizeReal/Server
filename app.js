@@ -2,7 +2,7 @@
 
 var express = require('express'),
   config = require('./config/config'),
-  glob = require('glob'),
+  glob = require('glob');
   //mongoose = require('mongoose');
 
 // mongoose.connect(config.db);
