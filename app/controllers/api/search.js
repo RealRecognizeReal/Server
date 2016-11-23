@@ -11,12 +11,17 @@ router.get('/text', function(req, res) {
     const url = `http://localhost:9200/engine/formula/_search?q=${text}`;
 
     request(url, function(error, response, body) {
-        const result = body.hits.hits.map(function(item) {
+        const info = JSON.parse(body);
+
+        const result = info.hits.hits.map(function(item) {
 
             return Object.assign({_id: item._id}, item._source);
         });
 
-        res.send({result});
+        res.send({result: {
+            result,
+            total: info.hits.total
+        }});
     });
     //
     // res.send({
