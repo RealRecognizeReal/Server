@@ -12,10 +12,8 @@ router.get('/text', function(req, res) {
 
     request(url, function(error, response, body) {
         const result = body.hits.hits.map(function(item) {
-            return {
-                _id: item._id,
-                ...item._source
-            };
+
+            return Object.assign({_id: item._id}, item._source);
         });
 
         res.send({result});
