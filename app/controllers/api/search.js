@@ -34,7 +34,11 @@ router.get('/text', co(function*(req, res, next) {
         const result = body.hits.hits.map(function(item) {
             let $ = cheerio.load(item._source.content);
 
-            let desc = $('h2').eq(1).siblings('p').eq(1).text();
+            let desc = $('h2').eq(1).siblings('p').eq(0).text();
+
+            if( desc === undefined ) {
+                desc = $('h2').eq(2).siblings('p').eq(0).text();
+            }
 
             return Object.assign({_id: item._id, desc}, item._source, {content: undefined});
         });
