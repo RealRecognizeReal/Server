@@ -4,7 +4,13 @@ const
     router      = express.Router({mergeParams: true}),
     Promise     = require('bluebird'),
     co          = Promise.coroutine,
+    path        = require('path'),
+    appRoot     = require('app-root-path'),
+    multer      = require('multer'),
     cheerio     = require('cheerio');
+
+
+const upload = multer({dest: path.join(appRoot.path, 'temp')})
 
 module.exports = router;
 
@@ -57,6 +63,14 @@ router.get('/text', co(function*(req, res, next) {
     }
 }));
 
-router.get('/formulaImage', function(req, res, next) {
+router.post('/formulaImage',
+    upload.single('formulaImage'),
+    function(req, res, next) {
 
-});
+        //req.file로 접근 가능
+        return res.send({result: {
+            result: [],
+            total: 0
+        }});
+    }
+);

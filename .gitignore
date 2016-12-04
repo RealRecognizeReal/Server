@@ -131,3 +131,5 @@ crashlytics-build.properties
 fabric.properties
 
 .idea
+temp
+!temp/README.md
