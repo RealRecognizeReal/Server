@@ -3,7 +3,8 @@ const
     request     = require('request-promise'),
     router      = express.Router({mergeParams: true}),
     Promise     = require('bluebird'),
-    co          = Promise.coroutine;
+    co          = Promise.coroutine,
+    cheerio     = require('cheerio');
 
 module.exports = router;
 
@@ -31,8 +32,11 @@ router.get('/text', co(function*(req, res, next) {
         const body = yield request(options);
 
         const result = body.hits.hits.map(function(item) {
+            let $ = cheerio.load(item._source.content);
 
-            return Object.assign({_id: item._id}, item._source);
+            let desc = $('h2').eq(1).siblings('p').eq(1).text();
+
+            return Object.assign({_id: item._id, desc}, item._source, {content: undefined});
         });
 
         return res.send({result: {
