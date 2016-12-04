@@ -1,53 +1,53 @@
 const
     express     = require('express'),
-    request     = require('request'),
-    router      = express.Router({mergeParams: true});
+    request     = require('request-promise'),
+    router      = express.Router({mergeParams: true}),
+    Promise     = require('bluebird'),
+    co          = Promise.coroutine;
 
 module.exports = router;
 
-router.get('/text', function(req, res) {
+router.get('/text', co(function*(req, res, next) {
     let {text} = req.query;
 
-    const url = `http://localhost:9200/engine/formula/_search?q=${text}`;
+    text = decodeURIComponent(text);
 
-    request(url, function(error, response, body) {
-        const info = JSON.parse(body);
+    const url = `http://ec2-52-79-61-171.ap-northeast-2.compute.amazonaws.com:9200/engine/page/_search`;
 
-        const result = info.hits.hits.map(function(item) {
+    const options = {
+        method: 'POST',
+        url,
+        body: {
+            "query": {
+                "query_string": {
+                    "query": `*${text}*`
+                }
+            }
+        },
+        json: true
+    };
+
+    try {
+        const body = yield request(options);
+
+        const result = body.hits.hits.map(function(item) {
 
             return Object.assign({_id: item._id}, item._source);
         });
 
-        res.send({result: {
+        return res.send({result: {
             result,
-            total: info.hits.total
+            total: body.hits.total
         }});
-    });
-    //
-    // res.send({
-    //     result: []
-    // });
+    }
 
-    //
-    // const result = [
-    //     {
-    //         _id: 1,
-    //         url: 'http://test.com/test',
-    //         title: 'test 1',
-    //         description: 'description 1'
-    //     },
-    //     {
-    //         _id: 2,
-    //         url: 'http://test.com/test2',
-    //         title: 'test 2',
-    //         description: 'description 2'
-    //     }
-    // ];
-    //
-    // res.send({
-    //     result
-    // });
-});
+    catch(e) {
+        console.error(e);
+        res.status(400).send({
+            message: e.message
+        });
+    }
+}));
 
 router.get('/formulaImage', function(req, res, next) {
 
