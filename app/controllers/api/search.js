@@ -93,6 +93,8 @@ router.post('/formulaHand',
                     content += (arr[i][j][0] + ' ' + arr[i][j][1])+'\n';
                 }
             }
+
+            return content;
         })(arr);
 
         console.log(fileName);
