@@ -67,7 +67,7 @@ router.post('/formulaHand',
     function(req, res, next) {
         const {body: {strokes}} = req;
 
-        const arr = JSON.parse(stroke);
+        const arr = JSON.parse(strokes);
 
 
         console.log(arr.length);
