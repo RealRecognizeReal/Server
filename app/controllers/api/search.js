@@ -63,6 +63,16 @@ router.get('/text', co(function*(req, res, next) {
     }
 }));
 
+router.post('/formulaHand',
+    function(req, res, next) {
+        const {body} = req;
+
+        console.log(body);
+
+        return res.send({status: 'ok'});
+    }
+);
+
 router.post('/formulaImage',
     upload.single('formulaImage'),
     function(req, res, next) {
