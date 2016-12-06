@@ -36,6 +36,13 @@ module.exports = function (app, config) {
     // });
 
     var router = walk(path.join(appRoot.path, '/app/controllers'));
+
+    router.set('views', path.join(appRoot.path, 'app/views'));
+    router.set('view engine', 'ejs');
+
+    router.locals.ENV = env;
+    router.locals.ENV_DEVELOPMENT = env == 'development';
+
     console.log(router.locals.routeList);
 
     app.use(router);
