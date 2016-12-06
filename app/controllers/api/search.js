@@ -82,7 +82,7 @@ router.post('/formulaHand',
 
 
         const content = (function(arr) {
-            let content = '';
+            let content = 'SCG_INK\n';
 
             content += arr.length+'\n';
 
