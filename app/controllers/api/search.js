@@ -97,10 +97,9 @@ router.post('/formulaHand',
             return content;
         })(arr);
 
-        console.log(fileName);
-        console.log(content);
-
-        return res.send({status: 'ok'});
+        return fs.writeFile('/root/data/'+fileName, content, function(err) {
+            res.send({status: 'ok'});
+        });
     }
 );
 
