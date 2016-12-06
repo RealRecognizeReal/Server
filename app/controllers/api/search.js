@@ -7,6 +7,7 @@ const
     path        = require('path'),
     appRoot     = require('app-root-path'),
     multer      = require('multer'),
+    fs          = require('fs'),
     cheerio     = require('cheerio');
 
 
@@ -69,16 +70,33 @@ router.post('/formulaHand',
 
         const arr = JSON.parse(strokes);
 
+        const fileName = (function() {
+            let fileName = '';
 
-        console.log(arr.length);
-
-        for(let i = 0 ; i < arr.length ; i++) {
-            console.log(arr[i].length);
-
-            for(let j = 0 ; j < arr[i].length ; j++) {
-                console.log(arr[i][j][0] + ' ' + arr[i][j][1]);
+            for(let i = 0 ; i < 10 ; i++) {
+                fileName += String.fromCharCode(Math.floor(Math.random()*10)+'0'.charCodeAt(0));
             }
-        }
+
+            return fileName;
+        })();
+
+
+        const content = (function(arr) {
+            let content = '';
+
+            content += arr.length+'\n';
+
+            for(let i = 0 ; i < arr.length ; i++) {
+                content += arr[i].length+'\n';
+
+                for(let j = 0 ; j < arr[i].length ; j++) {
+                    content += (arr[i][j][0] + ' ' + arr[i][j][1])+'\n';
+                }
+            }
+        })(arr);
+
+        console.log(fileName);
+        console.log(content);
 
         return res.send({status: 'ok'});
     }
