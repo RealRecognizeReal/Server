@@ -65,9 +65,19 @@ router.get('/text', co(function*(req, res, next) {
 
 router.post('/formulaHand',
     function(req, res, next) {
-        const {body} = req;
+        const {body: {stroke}} = req;
 
-        console.log(body);
+        const arr = JSON.parse(stroke);
+
+        console.log(arr.length);
+
+        for(let i = 0 ; i < arr.length ; i++) {
+            console.log(arr[i].length);
+
+            for(let j = 0 ; j < arr[i].length ; j++) {
+                console.log(arr[i][j][0] + ' ' + arr[i][j][1]);
+            }
+        }
 
         return res.send({status: 'ok'});
     }
