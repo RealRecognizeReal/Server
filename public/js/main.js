@@ -35,7 +35,7 @@ $(function () {
             postdata.user = urlParam("user");
         }
         $.ajax({
-            url: "http://cat.prhlt.upv.es/mer/eq.php",
+            url: "/api/search/formulaHand",
             type: "POST",
             data: postdata,
             beforeSend: function (xhr) {
