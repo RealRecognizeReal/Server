@@ -54,7 +54,9 @@ router.get('/text', co(function*(req, res, next) {
         var cmd = `docker exec -i ehandler python /root/cfactory/PageHandler/sets/data/solution.py ${text}`;
 
         exec(cmd, function(error, stdout, stderr) {
-            console.log(stdout);
+            var urls = stdout.split('\n');
+
+            console.log(urls);
 
             return res.send({result: {
                 //result,
