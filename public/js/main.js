@@ -83,7 +83,7 @@ $(function () {
         e.preventDefault();
         window.postMessage(_latex);
 
-        //window.close();
+        window.close();
     });
 
     $('a#clear').on("click", function (e) {
