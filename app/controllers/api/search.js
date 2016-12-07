@@ -68,10 +68,12 @@ router.get('/text', co(function*(req, res, next) {
                 console.log(db);
 
                 for(let i = 0 ; i < urls.length ; i++) {
-                    pages[i] = yield db.page.findOne({url: urls[i]});
+                    pages[i] = yield db.collection('page').findOne({url: urls[i]});
                 }
 
                 console.log(pages[i]);
+
+                db.close();
 
                 return res.send({result: {
                     //result,
