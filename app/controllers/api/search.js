@@ -71,7 +71,7 @@ router.get('/text', co(function*(req, res, next) {
                     pages[i] = yield db.collection('page').findOne({url: urls[i]});
                 }
 
-                console.log(pages[i]);
+                console.log(pages);
 
                 db.close();
 
