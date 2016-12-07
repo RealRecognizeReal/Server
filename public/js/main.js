@@ -81,6 +81,8 @@ $(function () {
 
     $('a#complete').on("click", function (e) {
         window.postMessage(_latex);
+
+        window.close();
     });
 
     $('a#clear').on("click", function (e) {
