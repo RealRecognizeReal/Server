@@ -65,6 +65,10 @@ $(function () {
                 $latex.html(data + '<br/>' + query);
                 $render.html('\\[' + data + '\\]');
                 MathJax.Hub.Typeset();
+
+                console.log(data);
+                var obj = JSON.parse(data);
+                $('#result').text(obj.latex);
             }
         });
     };
