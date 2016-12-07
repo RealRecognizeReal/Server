@@ -78,7 +78,7 @@ router.get('/text', co(function*(req, res, next) {
                         _id: idx,
                         pageTitle: item.title,
                         pageUrl: item.url,
-                        content: body
+                        //content: body
                     };
                 })));
 
@@ -90,6 +90,7 @@ router.get('/text', co(function*(req, res, next) {
                     //result,
                     result: pages,
                     //total: body.hits.total
+                    total: pages.length
                 }});
             }));
 
