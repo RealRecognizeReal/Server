@@ -62,23 +62,25 @@ router.get('/text', co(function*(req, res, next) {
 
             urls.pop();
 
-            const db = yield MongoClient.connect(mongoUrl);
+            MongoClient.connect(mongoUrl, co(function*(err, db) {
+                let pages = [];
 
-            let pages = [];
+                console.log(db);
 
-            console.log(db);
+                for(let i = 0 ; i < urls.length ; i++) {
+                    pages[i] = yield db.page.findOne({url: urls[i]});
+                }
 
-            for(let i = 0 ; i < urls.length ; i++) {
-                pages[i] = yield db.page.findOne({url: urls[i]});
-            }
+                console.log(pages[i]);
 
-            console.log(pages[i]);
+                return res.send({result: {
+                    //result,
+                    result: [],
+                    //total: body.hits.total
+                }});
+            }));
 
-            return res.send({result: {
-                //result,
-                result: [],
-                //total: body.hits.total
-            }});
+
         }));
 
 
