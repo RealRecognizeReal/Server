@@ -61,7 +61,7 @@ $(function () {
                     return false;
                 }
                 $submit.show();
-                $complete.show();
+                $('a#complete').show();
 
                 $('#loading').remove();
                 var asurl = encodeURIComponent(data);
