@@ -66,6 +66,8 @@ router.get('/text', co(function*(req, res, next) {
 
             let pages = [];
 
+            console.log(db);
+
             for(let i = 0 ; i < urls.length ; i++) {
                 pages[i] = yield db.page.findOne({url: urls[i]});
             }
