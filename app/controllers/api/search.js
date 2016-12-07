@@ -36,31 +36,34 @@ router.get('/text', co(function*(req, res, next) {
     };
 
     try {
-        const body = yield request(options);
-
-        const result = body.hits.hits.map(function(item) {
-            let $ = cheerio.load(item._source.content);
-
-            let desc = $('h2').eq(1).siblings('p').eq(0).text();
-
-            if( desc === undefined ) {
-                desc = $('h2').eq(2).siblings('p').eq(0).text();
-            }
-
-            return Object.assign({_id: item._id, desc}, item._source, {content: undefined});
-        });
+        // const body = yield request(options);
+        //
+        // const result = body.hits.hits.map(function(item) {
+        //     let $ = cheerio.load(item._source.content);
+        //
+        //     let desc = $('h2').eq(1).siblings('p').eq(0).text();
+        //
+        //     if( desc === undefined ) {
+        //         desc = $('h2').eq(2).siblings('p').eq(0).text();
+        //     }
+        //
+        //     return Object.assign({_id: item._id, desc}, item._source, {content: undefined});
+        // });
 
         var exec = require('child_process').exec;
         var cmd = `docker exec -i ehandler python /root/cfactory/PageHandler/sets/data/solution.py ${text}`;
 
         exec(cmd, function(error, stdout, stderr) {
             console.log(stdout);
+
+            return res.send({result: {
+                //result,
+                [],
+                total: body.hits.total
+            }});
         });
 
-        return res.send({result: {
-            result,
-            total: body.hits.total
-        }});
+
     }
 
     catch(e) {
