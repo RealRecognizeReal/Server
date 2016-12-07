@@ -28,7 +28,7 @@ router.get('/text', co(function*(req, res, next) {
         body: {
             "query": {
                 "query_string": {
-                    "query": `*${text}*`
+                    "query": `${text}`
                 }
             }
         },
@@ -48,6 +48,13 @@ router.get('/text', co(function*(req, res, next) {
             }
 
             return Object.assign({_id: item._id, desc}, item._source, {content: undefined});
+        });
+
+        var exec = require('child_process').exec;
+        var cmd = `docker exec -i ehandler python /root/cfactory/PageHandler/sets/data/solution.py ${text}`;
+
+        exec(cmd, function(error, stdout, stderr) {
+            console.log(stdout);
         });
 
         return res.send({result: {
@@ -112,7 +119,6 @@ router.post('/formulaHand',
                 stdout = stdout.substr(idx+7);
                 stdout = stdout.substr(0, stdout.length-1);
 
-                console.log(stdout);
                 res.send({latex: stdout});
             });
 
