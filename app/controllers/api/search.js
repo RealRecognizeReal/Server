@@ -77,7 +77,7 @@ router.get('/text', co(function*(req, res, next) {
 
                 return res.send({result: {
                     //result,
-                    result: [],
+                    result: pages,
                     //total: body.hits.total
                 }});
             }));
