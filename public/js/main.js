@@ -63,7 +63,7 @@ $(function () {
             <a target="_blank" href="https://www.google.es/search?q=' + asurl + '">Google</a> \
             or in <a target="_blank" href="https://www.wolframalpha.com/input/?i=' + asurl + '">Wolfram|Alpha</a>.';
                 $latex.html(data + '<br/>' + query);
-                $render.html('\\[' + data + '\\]');
+                $render.html('\\[' + data.latex + '\\]');
                 MathJax.Hub.Typeset();
 
                 $('#result').html(data.latex);
