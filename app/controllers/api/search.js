@@ -71,7 +71,7 @@ router.get('/text', co(function*(req, res, next) {
                     pages[i] = yield db.collection('page').findOne({url: urls[i]}, {url:1, title: 1});
                 }
 
-                pages = pages.map(co(function*(item) {
+                pages = yield Promise.all(pages.map(co(function*(item) {
                     const body = yield request({method: 'GET', url: item.url});
 
                     return {
@@ -79,7 +79,7 @@ router.get('/text', co(function*(req, res, next) {
                         pageUrl: item.url,
                         content: body
                     };
-                }));
+                })));
 
                 console.log(pages);
 
