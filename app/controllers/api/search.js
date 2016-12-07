@@ -8,12 +8,16 @@ const
     appRoot     = require('app-root-path'),
     multer      = require('multer'),
     fs          = require('fs'),
+    MongoClient = require('mongodb').MongoClient,
+    Server      = require('mongodb').Server,
     cheerio     = require('cheerio');
 
 
 const upload = multer({dest: path.join(appRoot.path, 'temp')})
 
 module.exports = router;
+
+let mongoUrl = 'mongodb://slb-283692.ncloudslb.com:27017/alan';
 
 router.get('/text', co(function*(req, res, next) {
     let {text} = req.query;
@@ -53,17 +57,27 @@ router.get('/text', co(function*(req, res, next) {
         var exec = require('child_process').exec;
         var cmd = `docker exec -i ehandler python /root/cfactory/PageHandler/sets/data/solution.py ${text}`;
 
-        exec(cmd, function(error, stdout, stderr) {
+        exec(cmd, co(function*(error, stdout, stderr) {
             var urls = stdout.split('\n');
 
-            console.log(urls);
+            urls.pop();
+
+            const db = MongoClient.connect(mongoUrl);
+
+            let pages = [];
+
+            for(let i = 0 ; i < urls.length ; i++) {
+                pages[i] = yield db.page.findOne({url: urls[i]});
+            }
+
+            console.log(pages[i]);
 
             return res.send({result: {
                 //result,
                 result: [],
                 //total: body.hits.total
             }});
-        });
+        }));
 
 
     }
