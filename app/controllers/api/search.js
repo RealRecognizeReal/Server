@@ -98,7 +98,25 @@ router.post('/formulaHand',
         })(arr);
 
         return fs.writeFile('/root/data/'+fileName, content, function(err) {
-            res.send({status: 'ok'});
+            var exec = require('child_process').exec;
+            var cmd = `docker exec -i berserk_heyrovsky python /root/factory/seshat/solution.py ${fileName}`;
+
+            exec(cmd, function(error, stdout, stderr) {
+                if(error) {
+                    console.error(error);
+                    return;
+                }
+
+                const idx = stdout.indexOf('LaTeX:');
+
+                stdout = stdout.substr(idx+7);
+                stdout = stdout.substr(0, stdout.length-1);
+
+                console.log(stdout);
+                res.send({latex: stdout});
+            });
+
+
         });
     }
 );
