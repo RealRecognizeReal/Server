@@ -1,4 +1,5 @@
 $(function () {
+    var _latex;
 
     function transform(strokes) {
         for (var i = 0; i < strokes.length; ++i)
@@ -27,6 +28,11 @@ $(function () {
     function submitStrokes() {
         var $submit = $('a#send'), $latex = $('#eq-latex'), $render = $('#eq-render');
         var strokes = $canvas.sketchable('strokes');
+
+        var $complete = $('a#complete');
+
+        $complete.hide();
+
         // Submit strokes in the required format.
         strokes = transform(strokes);
         var postdata = {strokes: JSON.stringify(strokes)};
@@ -57,6 +63,8 @@ $(function () {
                     return false;
                 }
                 $submit.show();
+                $complete.show();
+
                 $('#loading').remove();
                 var asurl = encodeURIComponent(data);
                 var query = '<p id="query">Search this in \
@@ -66,14 +74,21 @@ $(function () {
                 $render.html('\\[' + data.latex + '\\]');
                 MathJax.Hub.Typeset();
 
+                _latex = data.latex;
+
                 $('#result').html(data.latex);
             }
         });
     };
 
+    $('a#complete').on("click", function (e) {
+        window.postMessage(_latex);
+    });
+
     $('a#clear').on("click", function (e) {
         e.preventDefault();
         clearStrokes();
+        $('a#complete').hide();
     });
 
     $('a#send').on("click", function (e) {
