@@ -59,7 +59,7 @@ router.get('/text', co(function*(req, res, next) {
             return res.send({result: {
                 //result,
                 result: [],
-                total: body.hits.total
+                //total: body.hits.total
             }});
         });
 
