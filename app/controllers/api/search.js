@@ -62,7 +62,7 @@ router.get('/text', co(function*(req, res, next) {
 
             urls.pop();
 
-            const db = MongoClient.connect(mongoUrl);
+            const db = yield MongoClient.connect(mongoUrl);
 
             let pages = [];
 
