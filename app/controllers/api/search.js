@@ -99,7 +99,7 @@ router.post('/formulaHand',
 
         return fs.writeFile('/root/data/'+fileName, content, function(err) {
             var exec = require('child_process').exec;
-            var cmd = `docker exec -i berserk_heyrovsky python /root/factory/seshat/solution.py ${fileName}`;
+            var cmd = `docker exec -i hand python /root/factory/seshat/solution.py ${fileName}`;
 
             exec(cmd, function(error, stdout, stderr) {
                 if(error) {
