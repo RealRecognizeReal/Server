@@ -20,6 +20,8 @@ $(function () {
         }
     });
 
+    $('a#complete').hide();
+
     function clearStrokes() {
         $canvas.sketchable('clear');
         $('.result').empty();
@@ -28,10 +30,6 @@ $(function () {
     function submitStrokes() {
         var $submit = $('a#send'), $latex = $('#eq-latex'), $render = $('#eq-render');
         var strokes = $canvas.sketchable('strokes');
-
-        var $complete = $('a#complete');
-
-        $complete.hide();
 
         // Submit strokes in the required format.
         strokes = transform(strokes);
