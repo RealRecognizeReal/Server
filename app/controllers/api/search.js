@@ -39,17 +39,23 @@ router.get('/text', co(function*(req, res, next) {
         json: true
     };
 
+    function getDescByBody(body) {
+        let $ = cheerio.load(body);
+
+        let desc = $('h2').eq(1).siblings('p').eq(0).text();
+
+        if( desc === undefined ) {
+            desc = $('h2').eq(2).siblings('p').eq(0).text();
+        }
+
+        return desc;
+    }
+
     try {
         // const body = yield request(options);
         //
         // const result = body.hits.hits.map(function(item) {
-        //     let $ = cheerio.load(item._source.content);
-        //
-        //     let desc = $('h2').eq(1).siblings('p').eq(0).text();
-        //
-        //     if( desc === undefined ) {
-        //         desc = $('h2').eq(2).siblings('p').eq(0).text();
-        //     }
+        //     let desc = getDescByBody(item._source.content);
         //
         //     return Object.assign({_id: item._id, desc}, item._source, {content: undefined});
         // });
@@ -78,7 +84,7 @@ router.get('/text', co(function*(req, res, next) {
                         _id: idx,
                         pageTitle: item.title,
                         pageUrl: item.url,
-                        //content: body
+                        desc: getDescByBody(body)
                     };
                 })));
 
