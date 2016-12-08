@@ -61,7 +61,7 @@ router.get('/text', co(function*(req, res, next) {
         // });
 
         var exec = require('child_process').exec;
-        var cmd = `docker exec -i ehandler python /root/cfactory/PageHandler/sets/data/solution.py ${text}`;
+        var cmd = `docker exec -i ehandler python /root/cfactory/PageHandler/sets/data/solution.py '${text}'`;
 
         console.log(cmd);
         exec(cmd, co(function*(error, stdout, stderr) {
